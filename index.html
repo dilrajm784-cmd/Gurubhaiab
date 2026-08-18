@@ -276,9 +276,8 @@
 
         <!-- Main Title -->
         <div class="main-title">
-            👑 GURU BHAI ❤
-            
-(( <span>𝐒𝐀𝐓𝐓𝐀 𝐊𝐈𝐍𝐆</span> ))
+            👑 GURU BHAI ❤ <br>
+            (( <span>𝐒𝐀𝐓𝐓𝐀 𝐊𝐈𝐍𝐆</span> ))
         </div>
 
         <!-- Description Text -->
@@ -309,42 +308,52 @@
             </div>
         </div>
 
-        <!-- Redirecting Timer Text -->
+        <!-- Redirecting Timer Text (10 सेकेंड पर फिक्स कर दिया गया है) -->
         <div class="redirect-text">
-            Redirecting in <span id="timer">30</span> seconds...
+            Redirecting in <span id="timer">10</span> seconds...
         </div>
 
-        <!-- Main Join Button with Shine Effect -->
+        <!-- Main Join Button -->
         <a id="telegramLink" href="https://t.me/+xGVqLSKhk9AyMWZl" class="join-btn" onclick="trackButtonClick()">
             JOIN TELEGRAM CHANNEL
         </a>
     </div>
 
-    <!-- Script Logic (Meta Pixel & Timer Functionality Intact) -->
+    <!-- Script Logic -->
     <script>
-        let telegramUrl = "https://t.me/+xGVqLSKhk9AyMWZl"; 
+        const telegramUrl = "https://t.me/+xGVqLSKhk9AyMWZl"; 
 
         document.getElementById("telegramLink").href = telegramUrl;
 
         function trackButtonClick() {
-            if(typeof fbq !== 'undefined') {
-                fbq('trackCustom', 'TelegramBtnClick');
-                fbq('track', 'Subscribe');
+            try {
+                if (typeof fbq === 'function') {
+                    fbq('trackCustom', 'TelegramBtnClick');
+                    fbq('track', 'Subscribe');
+                }
+            } catch (e) {
+                console.log("Tracking blocked or error:", e);
             }
         }
 
-        let timeLeft = 30;
-        let timerElement = document.getElementById("timer");
+        let timeLeft = 10;
+        const timerElement = document.getElementById("timer");
 
-        let countdown = setInterval(function() {
+        const countdown = setInterval(function() {
             timeLeft--;
-            timerElement.textContent = timeLeft;
+            if (timerElement) {
+                timerElement.textContent = timeLeft;
+            }
 
             if (timeLeft <= 0) {
                 clearInterval(countdown);
                 
-                if(typeof fbq !== 'undefined') {
-                    fbq('trackCustom', 'AutoRedirect');
+                try {
+                    if (typeof fbq === 'function') {
+                        fbq('trackCustom', 'AutoRedirect');
+                    }
+                } catch (e) {
+                    console.log("Tracking error:", e);
                 }
 
                 window.location.href = telegramUrl;
